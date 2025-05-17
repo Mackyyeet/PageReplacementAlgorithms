@@ -13,7 +13,7 @@ ______
 
 
 # Credits
-This project used [Python (https://www.python.org/)] for building desktop apps.
+This project used [Python] (https://www.python.org/) for building desktop apps.
 
 # License
 This project is licensed under the MIT license.
