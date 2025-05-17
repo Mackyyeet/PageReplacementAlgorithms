@@ -11,3 +11,8 @@ Just navigate the exeFile on the right side of the repository and download Page 
 ______
 # Images
 
+# License
+This project is licensed under the MIT license.
+
+
+© 2025 Mark Jayson Macarilay. All rights reserved.
