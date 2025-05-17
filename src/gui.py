@@ -7,7 +7,7 @@ from logic import (
     opt_visual,
 )
 
-# -------------------- Visualization Drawing Function -------------------- #
+
 def draw_visual(history, frames_count, container, title):
     section = tk.LabelFrame(
         container, text=title, font=("Segoe UI", 14, "bold"),
@@ -33,7 +33,7 @@ def draw_visual(history, frames_count, container, title):
         ).grid(row=frames_count, column=t, pady=(5, 0))
 
 
-# -------------------- Run & Randomize Functions -------------------- #
+
 def run_all(pages=None):
     try:
         frames_count = int(entry_frames.get())
@@ -46,22 +46,22 @@ def run_all(pages=None):
             result_text.set("⚠️ Invalid reference string format.")
             return
 
-        # Run all algorithms
+
         page_text.set("📘 Reference String: " + " ".join(map(str, pages)))
         fifo_faults, fifo_hist = fifo_visual(pages, frames_count)
         lru_faults, lru_hist = lru_visual(pages, frames_count)
         opt_faults, opt_hist = opt_visual(pages, frames_count)
 
-        # Display result
+
         result_text.set(
             f"💥 Page Faults → FIFO: {fifo_faults} | LRU: {lru_faults} | OPT: {opt_faults}"
         )
 
-        # Clear previous visuals
+
         for widget in visual_frame.winfo_children():
             widget.destroy()
 
-        # Draw new visuals
+
         draw_visual(fifo_hist, frames_count, visual_frame, "FIFO (First-In, First-Out)")
         draw_visual(lru_hist, frames_count, visual_frame, "LRU (Least Recently Used)")
         draw_visual(opt_hist, frames_count, visual_frame, "Optimal")
@@ -80,10 +80,7 @@ def randomize_and_run():
     run_all(ref)
 
 
-# -------------------- GUI Setup -------------------- #
 root = tk.Tk()
-
-# Set icon for Windows taskbar and window (make sure 5882873.ico exists)
 try:
     root.iconbitmap("5882873.ico")
 except Exception as e:
@@ -93,7 +90,7 @@ root.title("📊 Page Replacement Visualizer")
 root.geometry("1100x750")
 root.eval('tk::PlaceWindow %s center' % root.winfo_toplevel())
 
-# Header
+
 header = tk.Frame(root, bg="#ecf0f1", pady=10)
 header.pack(fill="x")
 
@@ -102,7 +99,7 @@ tk.Label(
     font=("Segoe UI", 24, "bold"), fg="#3498db", bg="#ecf0f1"
 ).pack()
 
-# Input Section
+
 input_frame = tk.Frame(root, bg="#ecf0f1", pady=10)
 input_frame.pack(fill="x", padx=15)
 
@@ -124,14 +121,13 @@ tk.Button(
     bg="#2ecc71", fg="white", command=randomize_and_run
 ).pack(side="left")
 
-# Info Labels
+
 page_text = tk.StringVar()
 result_text = tk.StringVar()
 
 tk.Label(root, textvariable=page_text, font=("Courier New", 11), bg="#ecf0f1", fg="#555").pack(anchor="w", padx=15)
 tk.Label(root, textvariable=result_text, font=("Arial", 16, "bold"), fg="#e67e22", bg="#ecf0f1").pack(anchor="w", padx=15, pady=(5, 0))
 
-# Canvas & Scroll Area
 canvas = tk.Canvas(root, bg="#ecf0f1", highlightthickness=0)
 scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
 scrollbar.pack(side="right", fill="y")
@@ -141,12 +137,12 @@ scrollable_frame = tk.Frame(canvas, bg="#ecf0f1", padx=10, pady=10)
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 
 canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(int(-1 * (e.delta / 120)), "units"))
-canvas.bind_all("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))  # For Linux
-canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))   # For Linux
+canvas.bind_all("<Button-4>", lambda e: canvas.yview_scroll(-1, "units")) 
+canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))   
 
 visual_frame = scrollable_frame
 
 scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
-# Start App
+
 root.mainloop()
