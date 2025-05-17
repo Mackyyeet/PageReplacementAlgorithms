@@ -7,7 +7,6 @@ from logic import (
     opt_visual,
 )
 
-
 def draw_visual(history, frames_count, container, title):
     section = tk.LabelFrame(
         container, text=title, font=("Segoe UI", 14, "bold"),
@@ -33,7 +32,6 @@ def draw_visual(history, frames_count, container, title):
         ).grid(row=frames_count, column=t, pady=(5, 0))
 
 
-
 def run_all(pages=None):
     try:
         frames_count = int(entry_frames.get())
@@ -46,21 +44,17 @@ def run_all(pages=None):
             result_text.set("⚠️ Invalid reference string format.")
             return
 
-
         page_text.set("📘 Reference String: " + " ".join(map(str, pages)))
         fifo_faults, fifo_hist = fifo_visual(pages, frames_count)
         lru_faults, lru_hist = lru_visual(pages, frames_count)
         opt_faults, opt_hist = opt_visual(pages, frames_count)
 
-
         result_text.set(
             f"💥 Page Faults → FIFO: {fifo_faults} | LRU: {lru_faults} | OPT: {opt_faults}"
         )
 
-
         for widget in visual_frame.winfo_children():
             widget.destroy()
-
 
         draw_visual(fifo_hist, frames_count, visual_frame, "FIFO (First-In, First-Out)")
         draw_visual(lru_hist, frames_count, visual_frame, "LRU (Least Recently Used)")
@@ -88,8 +82,16 @@ except Exception as e:
 
 root.title("📊 Page Replacement Visualizer")
 root.geometry("1100x750")
-root.eval('tk::PlaceWindow %s center' % root.winfo_toplevel())
 
+def center_window():
+    root.update_idletasks()
+    width = root.winfo_width()
+    height = root.winfo_height()
+    x = (root.winfo_screenwidth() // 2) - (width // 2)
+    y = (root.winfo_screenheight() // 2) - (height // 2)
+    root.geometry(f'{width}x{height}+{x}+{y}')
+
+root.after(0, center_window)
 
 header = tk.Frame(root, bg="#ecf0f1", pady=10)
 header.pack(fill="x")
@@ -98,7 +100,6 @@ tk.Label(
     header, text="Page Replacement Visualizer",
     font=("Segoe UI", 24, "bold"), fg="#3498db", bg="#ecf0f1"
 ).pack()
-
 
 input_frame = tk.Frame(root, bg="#ecf0f1", pady=10)
 input_frame.pack(fill="x", padx=15)
@@ -121,7 +122,6 @@ tk.Button(
     bg="#2ecc71", fg="white", command=randomize_and_run
 ).pack(side="left")
 
-
 page_text = tk.StringVar()
 result_text = tk.StringVar()
 
@@ -143,6 +143,5 @@ canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))
 visual_frame = scrollable_frame
 
 scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-
 
 root.mainloop()
