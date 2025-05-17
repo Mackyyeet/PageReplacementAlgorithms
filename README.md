@@ -11,6 +11,10 @@ Just navigate the exeFile on the right side of the repository and download Page 
 ______
 # Images
 
+
+# Credits
+This project used [Python (https://www.python.org/)] for building desktop apps.
+
 # License
 This project is licensed under the MIT license.
 
