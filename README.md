@@ -9,5 +9,5 @@ ______
 # How to download .exe file?
 Just navigate the exeFile on the right side of the repository and download Page Replacement Algorithm.exe
 ______
-Images
+# Images
 
